@@ -3,7 +3,7 @@ services:
   influxdb:
     image: "influxdb:2.2.0"
     ports:
-      - "8080:8086"
+      - "8086:8086"
     volumes:
       - influxdb:/var/lib/influxdb2
       - influxdbconfig:/etc/influxdb2
