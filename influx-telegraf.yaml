@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  influxdb:
+    image: "influxdb:2.2.0"
+    ports:
+      - "8080:8086"
+    volumes:
+      - influxdb:/var/lib/influxdb2
+      - influxdbconfig:/etc/influxdb2
+    environment:
+      DOCKER_INFLUXDB_INIT_USERNAME: root
+      DOCKER_INFLUXDB_INIT_PASSWORD: passw0rd
+      DOCKER_INFLUXDB_INIT_ORG: cisco
+      DOCKER_INFLUXDB_INIT_BUCKET: influx-telegraf
+    networks:
+      - influxdb
+
+  telegraf:
+    image: "telegraf"
+    ports:
+      - "8090:8090"
+      - "8080:80"
+    networks:
+      - influxdb
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf
+    depends_on:
+      - influxdb
+networks:
+  influxdb:
+volumes:
+  influxdb:
+  influxdbconfig:
